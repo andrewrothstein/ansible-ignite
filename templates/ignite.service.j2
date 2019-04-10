@@ -3,6 +3,7 @@ Description=Apache Ignite Server
 After=network.target
 
 [Service]
+Environment=JAVA_HOME={{ java_home  }}
 Type=simple
 User=ignite
 WorkingDirectory={{ignite_home}}/{{ignite_name}}
