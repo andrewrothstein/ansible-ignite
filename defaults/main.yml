@@ -6,6 +6,7 @@ ignite_checksums:
   # https://www.apache.org/dist/ignite/2.7.0/apache-ignite-2.7.0-bin.zip.sha512
   '2.7.0': sha512:afb83a77f538cdd9cc9fbadfc41af589ceff75f9b8c96f270997b5724819525fa9af1ff9e7b7166155d6f3632954b39939573971ecef1caf090b8ce604e76523
 ignite_home: /usr/local/ignite
+java_home: /usr/local/java
 
 # for statically defining the IPs of the peers
 ignite_network:
