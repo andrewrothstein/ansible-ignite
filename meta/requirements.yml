@@ -6,4 +6,4 @@
 - name: andrewrothstein.sudoers
   version: v1.2.3
 - name: andrewrothstein.systemd_service
-  version: v3.2.1
+  version: v3.2.2
