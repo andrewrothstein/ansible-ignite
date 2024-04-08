@@ -35,8 +35,6 @@
         remote_src: true
         src: '{{ ignite_tmp_archive }}'
         dest: '{{ ignite_parent_install_dir }}'
-        owner: ignite
-        group: ignite
         creates: '{{ ignite_exe }}'
   always:
     - name: Rm {{ ignite_tmp_archive }}
@@ -62,8 +60,6 @@
     src: '{{ item.f }}.j2'
     dest: '{{ item.d }}/{{ item.f }}'
     mode: '{{ item.m | default("644") }}'
-    user: ignite
-    group: ignite
 
 - name: Configuring with {{ ignite_supervisor | default("systemd") }}
   ansible.builtin.include_tasks: '{{ ignite_supervisor | default("systemd") }}.yml'
