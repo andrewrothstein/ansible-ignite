@@ -1,7 +1,9 @@
 ---
-- name: andrewrothstein.unarchive-deps
-  version: v1.2.4
+- name: andrewrothstein.unarchivedeps
+  version: 3.0.2
 - name: andrewrothstein.temurin
-  version: 1.1.5
+  version: 2.0.0
 - name: andrewrothstein.sudoers
-  version: v1.0.15
+  version: v1.2.3
+- name: andrewrothstein.systemd_service
+  version: v3.2.1

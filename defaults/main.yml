@@ -1,8 +1,8 @@
 ---
 # defaults file for ignite
-ignite_ver: 2.14.0
+ignite_ver: 2.16.0
 ignite_mirror: http://archive.apache.org/dist/ignite
-ignite_home: /usr/local/ignite
+ignite_parent_install_dir: /usr/local
 
 # for statically defining the IPs of the peers
 ignite_network:
@@ -11,12 +11,13 @@ ignite_network:
     - 127.0.0.1
 
 # example for using Ansible groups and groupvars
-#ignite_network:
-#  type: group
-#  group_name: ignite
-#  network_interface : eth0
+# ignite_network:
+#   type: group
+#   group_name: ignite
+#   network_interface : eth0
 
 ignite_activate: true
+ignite_enabled: true
 
 ignite_checksums:
   # https://www.apache.org/dist/ignite/2.7.0/apache-ignite-2.7.0-bin.zip.sha512
@@ -29,3 +30,7 @@ ignite_checksums:
   '2.9.1': sha512:7c36f0116cad567133455fa78784710e4bffb30c9a47438ee5ccbd0da0fd12e4c1914f1a39c12f7b19720dd4946c53ad4d4a5af06cca4b1e06c0f09b96def041
   # https://archive.apache.org/dist/ignite/2.14.0/apache-ignite-2.14.0-bin.zip.sha512
   '2.14.0': sha512:4eb9251f03aff3dc588465dd5692b0ffdc899a67ca86fa8656a31e4c6920add656e1c27cc50cdf6663062f128449c808a47341d262d94f9bf4d72339066d257a
+  # https://archive.apache.org/dist/ignite/2.15.0/apache-ignite-2.15.0-bin.zip.sha512
+  '2.15.0': sha512:4e9d0320faccc31ec9d2f734a6e314dd62e83af02cc1ecdb1e218d4fa7c801185768827504212126082178c9f8593d7afa9c24651c0f597ba8f72c1d0813a23d
+  # https://archive.apache.org/dist/ignite/2.16.0/apache-ignite-2.16.0-bin.zip.sha512
+  '2.16.0': sha512:70c69fbaef52ff89ea940c81b04b0cd0ffeea01230889c0599da9eff1bb18b5223d06b8881f64986263608ed8e6b92f1ce25a60079fe8b3b1ccbad26cc413845

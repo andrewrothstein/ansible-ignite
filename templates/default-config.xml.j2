@@ -32,12 +32,15 @@
 	          <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
 	            <property name="addresses">
 		            <list>
-                  {% if ignite_network.type == "static" %}{% for peer in ignite_network.peers %}
-                  <value>{{peer}}</value>
-                  {% endfor %}{% else %}
-                  {% for host in groups[ignite_network.group_name] %}
-                  <value>{{hostvars[host]['ansible_' + ignite_network.iface]['ipv4']['address']}}</value>
-		              {% endfor %}{% endif %}
+                  {% if ignite_network.type == "static" %}
+                    {% for peer in ignite_network.peers %}
+                      <value>{{ peer }}</value>
+                    {% endfor %}
+                  {% else %}
+                    {% for host in groups[ignite_network.group_name] %}
+                      <value>{{ hostvars[host]['ansible_' + ignite_network.iface]['ipv4']['address'] }}</value>
+		                {% endfor %}
+                  {% endif %}
 		            </list>
 	            </property>
 	          </bean>

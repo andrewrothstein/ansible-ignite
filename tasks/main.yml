@@ -1,51 +1,69 @@
 ---
 # tasks file for ignite
-- include_role:
-    name: andrewrothstein.unarchive-deps
-- include_role:
+- name: Installing andrewrothstein.unarchivedeps
+  ansible.builtin.include_role:
+    name: andrewrothstein.unarchivedeps
+- name: Installing andrewrothstein.suoders
+  ansible.builtin.include_role:
     name: andrewrothstein.sudoers
-- include_role:
+- name: Installing andrewrothstein.temurin
+  ansible.builtin.include_role:
     name: andrewrothstein.temurin
   vars:
-    openjdk_app: jre
-- name: adding ignite group
+    temurin_app: jre
+- name: Looking for install at {{ ignite_exe }}
   become: true
   become_user: root
-  group:
-    name: ignite
-    state: present
-- name: adding ignite user
+  ansible.builtin.stat:
+    path: '{{ ignite_exe }}'
+  register: ignite_binary
+- name: Downloading and installing ignite
+  when: not ignite_binary.stat.exists
+  block:
+    - name: Downloading {{ ignite_url }} to {{ ignite_tmp_archive }}
+      become: true
+      become_user: root
+      ansible.builtin.get_url:
+        url: '{{ ignite_url }}'
+        dest: '{{ ignite_tmp_archive }}'
+        mode: '644'
+        checksum: '{{ ignite_checksum }}'
+    - name: Unarchiving {{ ignite_tmp_archive }} to {{ ignite_parent_install_dir }}
+      become: true
+      become_user: root
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: '{{ ignite_tmp_archive }}'
+        dest: '{{ ignite_parent_install_dir }}'
+        owner: ignite
+        group: ignite
+        creates: '{{ ignite_exe }}'
+  always:
+    - name: Rm {{ ignite_tmp_archive }}
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        path: '{{ ignite_tmp_archive }}'
+        state: absent
+- name: Linking {{ ignite_link_dir }} to {{ ignite_install_dir }}
   become: true
   become_user: root
-  user:
-    name: ignite
-    group: ignite
-    home: '{{ ignite_home }}'
-- name: downloading {{ ignite_url }}
+  ansible.builtin.file:
+    src: '{{ ignite_install_dir }}'
+    dest: '{{ ignite_link_dir }}'
+    state: link
+- name: Install ignite config
   become: true
-  become_user: ignite
-  get_url:
-    url: '{{ ignite_url }}'
-    dest: '{{ ignite_lzip }}'
-    mode: 0644
-- name: unarchiving {{ ignite_lzip }}
-  become: true
-  become_user: ignite
-  unarchive:
-    remote_src: true
-    src: '{{ ignite_lzip }}'
-    dest: '{{ ignite_home }}'
-    creates: '{{ ignite_install_dir }}'
-
-- name: install config
-  become: true
-  become_user: ignite
+  become_user: root
   with_items:
     - f: default-config.xml
       d: '{{ ignite_install_dir }}/config'
-  template:
+  ansible.builtin.template:
     src: '{{ item.f }}.j2'
     dest: '{{ item.d }}/{{ item.f }}'
-    mode: '{{ item.m | default("0644") }}'
+    mode: '{{ item.m | default("644") }}'
+    user: ignite
+    group: ignite
 
-- include_tasks: '{{ ignite_supervisor | default("systemd") }}.yml'
+- name: Configuring with {{ ignite_supervisor | default("systemd") }}
+  ansible.builtin.include_tasks: '{{ ignite_supervisor | default("systemd") }}.yml'

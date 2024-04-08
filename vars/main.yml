@@ -1,7 +1,10 @@
 ---
 # vars file for ignite
 ignite_name: apache-ignite-{{ ignite_ver }}-bin
-ignite_zip: '{{ ignite_name }}.zip'
-ignite_lzip: '{{ ignite_home }}/{{ ignite_zip }}'
-ignite_url: '{{ ignite_mirror }}/{{ ignite_ver }}/{{ ignite_zip }}'
-ignite_install_dir: '{{ ignite_home }}/{{ ignite_name }}'
+ignite_install_dir: '{{ ignite_parent_install_dir }}/{{ ignite_name }}'
+ignite_link_dir: '{{ ignite_parent_install_dir }}/ignite'
+ignite_archive: '{{ ignite_name }}.zip'
+ignite_tmp_archive: '{{ ignite_tmp_dir | default("/tmp") }}/{{ ignite_archive }}'
+ignite_url: '{{ ignite_mirror }}/{{ ignite_ver }}/{{ ignite_archive }}'
+ignite_checksum: '{{ ignite_checksums[ignite_ver] }}'
+ignite_exe: '{{ ignite_install_dir }}/bin/ignite.sh'

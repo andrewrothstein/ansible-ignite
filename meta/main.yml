@@ -4,28 +4,28 @@ galaxy_info:
   company: BlackRock
   description: role for apache ignite
   galaxy_tags:
-  - development
-  license:
-  - MIT
-  min_ansible_version: 1.2
+    - development
+  license: MIT
+  min_ansible_version: '1.2'
+  namespace: andrewrothstein
   platforms:
-  - name: Archlinux
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - bullseye
-    - buster
-  - name: EL
-    versions:
-    - 8
-    - 9
-  - name: Fedora
-    versions:
-    - 36
-    - 37
-  - name: Ubuntu
-    versions:
-    - bionic
-    - focal
-    - jammy
+    - name: ArchLinux
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+    - name: EL
+      versions:
+        - '8'
+        - '9'
+    - name: Fedora
+      versions:
+        - '38'
+        - '39'
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+  role_name: ignite

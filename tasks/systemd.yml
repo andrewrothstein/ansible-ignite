@@ -1,28 +1,30 @@
 ---
-- name: install ignite.service
-  become: yes
-  become_user: root
-  with_items:
-    - f: ignite.service
-      d: /etc/systemd/system
-  template:
-    src: '{{ item.f }}.j2'
-    dest: '{{ item.d }}/{{ item.f }}'
-    mode: '{{ item.m | default("0644") }}'
-  register: ignite_service_installed
-
-- name: systemctl daemon-reload
-  become: yes
-  become_user: root
-  when: ignite_activate and ignite_service_installed is changed
-  systemd:
-    daemon_reload: yes
-
-- name: start ignite
-  become: yes
-  become_user: root
-  when: ignite_activate
-  service:
-    name: ignite
-    enabled: yes
-    state: started
+- name: Installing systemd servicer
+  ansible.builtin.include_role:
+    name: andrewrothstein.systemd_service
+  vars:
+    systemd_service_activate: '{{ ignite_activate }}'
+    systemd_service_def:
+      activate: '{{ ignite_activate }}'
+      enabled: '{{ ignite_enabled }}'
+      description: Apache Ignite Server
+      after:
+        - network.target
+      name: ignite
+      account:
+        enabled: true
+        user: ignite
+        group: ignite
+      env:
+        dir: /etc/ignite
+        filename: env
+        addl_files:
+          - '-/usr/local/openjdk-jre/openjdk.env'
+      ty: simple
+      working_directory: '{{ ignite_link_dir }}'
+      start:
+        exe: '{{ ignite_link_dir }}/bin/ignite.sh'
+      restart:
+        policy: on-failure
+      wanted_by:
+        - multi-user.target

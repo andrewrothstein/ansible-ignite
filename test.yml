@@ -1,5 +1,8 @@
 ---
-- hosts: all
+- name: Testing andrewrothstein.ignite
+  hosts: all
+#  vars:
+#    ignite_activate: false
+#    ignite_enabled: false
   roles:
     - role: '{{ playbook_dir }}'
-      ignite_activate: False
